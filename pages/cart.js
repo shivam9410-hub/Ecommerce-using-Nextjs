@@ -13,6 +13,10 @@ const {cart:{cartItems} }=state;
 const removeItemHandler=(item)=>{
     dispatch({type:'CART_REMOVE_ITEM',payload:item})
 }
+const updateCartHandler=(item,qty)=>{
+    const quantity= Number(qty)
+    dispatch({type:'CART_ADD_ITEM',payload:{...item,quantity}})
+}
 
   return (
 
@@ -54,7 +58,16 @@ const removeItemHandler=(item)=>{
                                             </a> 
                                         </Link>
                                     </td>
-                                    <td className='p-5 text-right'>{item.quantity}</td>
+                                    <td className='p-5 text-right'>
+                                    <select value={item.quantity} onChange={(e)=>updateCartHandler(item,e.target.value)}>
+                                        {
+                                            [...Array(item.countInStock).keys()].map(x=>{
+                                                return <option key={x+1} value={x+1}>{x+1}</option>
+                                            })
+                                        }
+                                        </select>
+                                    </td>
+                                  
                                     <td className='p-5 text-right'>${item.price}</td>
                                     <td className='p-5 text-center'>
                                         <button>
@@ -74,7 +87,7 @@ const removeItemHandler=(item)=>{
                                 Subtotal ({cartItems.reduce((a,c)=>a+c.quantity,0)}
                                 )
                             {' '}
-                            :${cartItems.reduce((a,c)=>a+c.quantity+c.price,0)}
+                            :${cartItems.reduce((a,c)=>a+c.quantity*c.price,0)}
                             </div>
                         </li>
                         <li>
