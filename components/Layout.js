@@ -1,13 +1,17 @@
 import { Store } from '@/utils/Store'
 import Head from 'next/head'
 import Link from 'next/link'
-import React, { useContext } from 'react'
-
+import React, { useContext, useEffect, useState } from 'react'
 const Layout = ({title ,children}) => {
+
+
   const {state,dispatch}=useContext(Store) ;
 
   const {cart} = state; 
-   
+  const [cartItemCount,setCartItemsCount]=useState(0) ;
+  useEffect(()=>{ 
+    setCartItemsCount(cart.cartItems.length) ;
+  },[cart.cartItems])
   return (
     <>
       <Head>
@@ -20,9 +24,9 @@ const Layout = ({title ,children}) => {
   <nav className='flex  h-12 justify-between shadow-md items-center px-4'>
     <Link href='/'> Amazona</Link>
     <div>
-        <Link legacyBehavior href="/cart"><a className='m-2'>Cart{cart.cartItems.length>0 &&(
+        <Link legacyBehavior href="/cart"><a className='m-2'>Cart{cartItemCount>0 &&(
           <span className='ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white'>
-            {cart.cartItems.reduce((a,c)=>a+c.quantity,0)}
+        {cartItemCount}
           </span>
         )}</a></Link>
         <Link  href='/login'>Login</Link>
