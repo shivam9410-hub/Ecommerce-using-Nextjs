@@ -1,8 +1,9 @@
 import User from "@/models/User";
 import db from "@/utils/db";
 import bcryptjs from "bcryptjs/dist/bcrypt";
-
-const { default: nextAuth } = require("next-auth");
+import { use } from "react";
+import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth from "next-auth/next";
 
 
 export default NextAuth({
@@ -34,8 +35,16 @@ session:{
             const user= await User.findOne({email:credentials.email}) ;
             await db.disconnect() ;
              if(user && bcryptjs.compareSync(credentials.password ,user.password)){
-
+ return {
+     _id:user._id , 
+     name:user.name,
+     email:user.email,
+     image:'f' ,
+     isAdmin:user.isAdmin ,
+ }
              }
+             throw new Error('Invalid email or password')  ;
+             
         }
     })
 
