@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 const connection={}  ;
 
 async function connect(){
+
     if(connection.isConnected){
      console.log("Already connected")
         return;
@@ -14,11 +15,8 @@ async function connect(){
         }
         await mongoose.disconnect();
     }
-    const db=await mongoose.connect(process.env.MONGODB_URL,{ 
-        useCreateIndex:true,
-        useFindAndModify:false,
-        useNewUrlParser:true,
-        useUnifiedTopology:true
+    const db=await mongoose.connect(process.env.MONGODB_URI,{ 
+    
     })
     console.log("New connection")
     connection.isConnected=db.connections[0].readyState;
@@ -33,5 +31,5 @@ async function disconnect(){
         }
     }
 }
-const {db}={connect,disconnect} ;
+const db={connect,disconnect} ;
 export default db;
