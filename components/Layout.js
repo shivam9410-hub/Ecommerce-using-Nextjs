@@ -2,6 +2,8 @@ import { Store } from '@/utils/Store'
 import Head from 'next/head'
 import Link from 'next/link'
 import React, { useContext, useEffect, useState } from 'react'
+import { ToastContainer } from 'react-toastify'
+
 const Layout = ({title ,children}) => {
 
 
@@ -19,6 +21,7 @@ const Layout = ({title ,children}) => {
  <meta name="description" content='Ecommerce website'/>
  <link rel="icon" href="/favicon.ico"/>
     </Head>
+    <ToastContainer position='bottom-center' limit={1}/>
     <div className="flex min-h-screen flex-col justify-between ">
       <header>
   <nav className='flex  h-12 justify-between shadow-md items-center px-4'>
